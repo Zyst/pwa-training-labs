@@ -16,61 +16,66 @@ limitations under the License.
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
 
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <meta charset="utf-8">
-    <title>Fetch API Tutorial</title>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta charset="utf-8">
+  <title>Fetch API Tutorial</title>
 
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <h1>Fetch API Tutorial</h1>
+  <h1>Fetch API Tutorial</h1>
 
-    <button id="json-button">Fetch JSON</button>
-    <button id="img-button">Fetch image</button>
-    <button id="text-button">Fetch text</button>
-    <button id="head-button">HEAD request</button>
+  <button id="json-button">Fetch JSON</button>
+  <button id="img-button">Fetch image</button>
+  <button id="text-button">Fetch text</button>
+  <button id="head-button">HEAD request</button>
 
-    <br><br>
+  <br>
+  <br>
 
-    <form action="#" id="myForm">
-        <div>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="user_name" />
-        </div>
-        <br>
-        <div>
-            <label for="msg">Message:</label>
-            <textarea id="msg" name="user_message"></textarea>
-        </div>
-        <br>
-        <button id="post-button" type="button">POST request</button>
-        <br>
-    </form>
-
+  <form action="#" id="myForm">
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="user_name" />
+    </div>
     <br>
+    <div>
+      <label for="msg">Message:</label>
+      <textarea id="msg" name="user_message"></textarea>
+    </div>
+    <br>
+    <button id="post-button" type="button">POST request</button>
+    <br>
+  </form>
 
-    <div id="container"></div>
+  <br>
 
-    <p id="message"></p>
+  <div id="container"></div>
 
-    <script src="js/main.js"></script>
+  <p id="message"></p>
 
-    <script>
-      var jsonButton = document.getElementById('json-button');
-      jsonButton.addEventListener('click', app.fetchJSON);
-      var imgButton = document.getElementById('img-button');
-      imgButton.addEventListener('click', app.fetchImage);
-      var textButton = document.getElementById('text-button');
-      textButton.addEventListener('click', app.fetchText);
-      var headButton = document.getElementById('head-button');
-      headButton.addEventListener('click', app.headRequest);
-      var postButton = document.getElementById('post-button');
-      postButton.addEventListener('click', app.postRequest);
-    </script>
+  <script src="js/main.js"></script>
 
-  </body>
+  <script>
+    var jsonButton = document.getElementById('json-button');
+    jsonButton.addEventListener('click', app.fetchJSON);
+
+    var imgButton = document.getElementById('img-button');
+    imgButton.addEventListener('click', app.fetchImage);
+
+    var textButton = document.getElementById('text-button');
+    textButton.addEventListener('click', app.fetchText);
+
+    var headButton = document.getElementById('head-button');
+    headButton.addEventListener('click', app.headRequest);
+
+    var postButton = document.getElementById('post-button');
+    postButton.addEventListener('click', app.postRequest);
+  </script>
+
+</body>
 
 </html>

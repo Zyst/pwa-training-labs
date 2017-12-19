@@ -13,7 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-var app = (function() {
+// eslint-disable-next-line no-unused-vars
+var app = (() => {
   'use strict';
 
   function logResult(result) {
@@ -24,18 +25,27 @@ var app = (function() {
     console.log('Looks like there was a problem: \n', error);
   }
 
-  // TODO 2.1a
+  if (!('fetch' in window)) {
+    console.log('Fetch API not found, try including the polyfill');
+    return;
+  }
 
   function fetchJSON() {
-    // TODO 2.1b
+    fetch('examples/animals.json')
+      .then(validateResponse)
+      .then(readResponseAsJSON)
+      .then(logResult)
+      .catch(logError);
   }
 
   function validateResponse(response) {
-    // TODO 2.3
+    if (!response.ok) throw response.statusText;
+
+    return response;
   }
 
   function readResponseAsJSON(response) {
-    // TODO 2.4
+    return response.json();
   }
 
   function showImage(responseAsBlob) {
@@ -79,15 +89,14 @@ var app = (function() {
   // We are using the JavaScript Module Pattern to enable unit testing of
   // our functions.
   return {
-    readResponseAsJSON: (readResponseAsJSON),
-    readResponseAsBlob: (readResponseAsBlob),
-    readResponseAsText: (readResponseAsText),
-    validateResponse: (validateResponse),
-    fetchJSON: (fetchJSON),
-    fetchImage: (fetchImage),
-    fetchText: (fetchText),
-    headRequest: (headRequest),
-    postRequest: (postRequest)
+    readResponseAsJSON,
+    readResponseAsBlob,
+    readResponseAsText,
+    validateResponse,
+    fetchJSON,
+    fetchImage,
+    fetchText,
+    headRequest,
+    postRequest
   };
-
 })();
