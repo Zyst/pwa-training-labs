@@ -14,12 +14,14 @@ limitations under the License. -->
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>QUnit Example</title>
   <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.0.1.css">
 </head>
+
 <body>
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
@@ -32,7 +34,7 @@ limitations under the License. -->
       status: 404,
       statusText: 'File not found'
     });
-    var failure = new Promise(function(resolve) {
+    var failure = new Promise(function (resolve) {
       resolve(badResponse);
     });
 
@@ -40,147 +42,148 @@ limitations under the License. -->
       status: 200,
       statusText: 'success'
     });
-    var success = new Promise(function(resolve, reject) {
+    var success = new Promise(function (resolve, reject) {
       resolve(goodResponse);
     });
 
-    QUnit.test('validateResponse', function(assert) {
+    QUnit.test('validateResponse', function (assert) {
       var done = assert.async(2);
       success
-      .then(app.validateResponse)
-      .then((response) => {
-        assert.equal(response.statusText, goodResponse.statusText,
-          'returns the response object');
-        done();
-      })
-      // A good response throws an error
-      .catch(() => {
-        assert.ok(false,
-          'returns the response object');
-        done();
-      });
+        .then(app.validateResponse)
+        .then((response) => {
+          assert.equal(response.statusText, goodResponse.statusText,
+            'returns the response object');
+          done();
+        })
+        // A good response throws an error
+        .catch(() => {
+          assert.ok(false,
+            'returns the response object');
+          done();
+        });
 
       failure
-      .then(app.validateResponse)
-      // A bad response doesn't throw an error
-      .then((response) => {
-        assert.okay(false, 'bad responses throw errors');
-        done();
-      })
-      .catch((error) => {
-        assert.ok(~error.message.indexOf('File not found'),
-          'bad responses throw error that contains response.statusText');
-        done();
-      });
+        .then(app.validateResponse)
+        // A bad response doesn't throw an error
+        .then((response) => {
+          assert.okay(false, 'bad responses throw errors');
+          done();
+        })
+        .catch((error) => {
+          assert.ok(~error.indexOf('File not found'),
+            'bad responses throw error that contains response.statusText');
+          done();
+        });
 
     });
 
-    QUnit.test('readResponseAsJSON', function(assert) {
+    QUnit.test('readResponseAsJSON', function (assert) {
       var done = assert.async();
 
       fetch('../examples/animals.json')
-      .then(app.readResponseAsJSON)
-      .then((actual) => {
-        if (actual) {
-          var expected = {
-            'animals': {
-              'cat': 'kitten',
-              'dog': 'puppy',
-              'kangaroo': 'joey'
-            },
-            'type': 'animal'
-          };
-          assert.equal(actual.animals.cat, expected.animals.cat,
-            'JSON is returned');
+        .then(app.readResponseAsJSON)
+        .then((actual) => {
+          if (actual) {
+            var expected = {
+              'animals': {
+                'cat': 'kitten',
+                'dog': 'puppy',
+                'kangaroo': 'joey'
+              },
+              'type': 'animal'
+            };
+            assert.equal(actual.animals.cat, expected.animals.cat,
+              'JSON is returned');
+            done();
+          } else {
+            assert.ok(false, 'an object is returned');
+            done();
+          }
+        })
+        .catch(() => {
+          assert.ok(false, 'JSON is returned');
           done();
-        } else {
-          assert.ok(false, 'an object is returned');
-          done();
-        }
-      })
-      .catch(() => {
-        assert.ok(false, 'JSON is returned');
-        done();
-      });
+        });
     });
 
-    QUnit.test('readResponseAsBlob', function(assert) {
+    QUnit.test('readResponseAsBlob', function (assert) {
       var done = assert.async();
 
       fetch('../examples/kitten.jpg')
-      .then(app.readResponseAsBlob)
-      .then((blob) => {
-        if (blob) {
-          assert.ok(blob instanceof Blob, 'a blob is returned');
-          done();
-        } else {
+        .then(app.readResponseAsBlob)
+        .then((blob) => {
+          if (blob) {
+            assert.ok(blob instanceof Blob, 'a blob is returned');
+            done();
+          } else {
+            assert.ok(false, 'an object is returned');
+            done();
+          }
+        })
+        .catch(() => {
           assert.ok(false, 'an object is returned');
           done();
-        }
-      })
-      .catch(() => {
-        assert.ok(false, 'an object is returned');
-        done();
-      });
+        });
     });
 
-    QUnit.test('readResponseAsText', function(assert) {
+    QUnit.test('readResponseAsText', function (assert) {
       var done = assert.async();
 
       fetch('../examples/words.txt')
-      .then(app.readResponseAsText)
-      .then((text) => {
-        if (text) {
-          assert.equal(typeof text, 'string', 'a string is returned');
+        .then(app.readResponseAsText)
+        .then((text) => {
+          if (text) {
+            assert.equal(typeof text, 'string', 'a string is returned');
+            done();
+          } else {
+            assert.ok(false, 'an object is returned');
+            done();
+          }
+        })
+        .catch(() => {
+          assert.ok(false, 'a blob is returned');
           done();
-        } else {
-          assert.ok(false, 'an object is returned');
-          done();
-        }
-      })
-      .catch(() => {
-        assert.ok(false, 'a blob is returned');
-        done();
-      });
+        });
     });
 
-    QUnit.test('echo server #1 running (with CORS)', function(assert) {
+    QUnit.test('echo server #1 running (with CORS)', function (assert) {
       var done = assert.async();
 
       fetch('http://localhost:5000/')
-      .then((response) => {
-        if (response.ok) {
-          assert.ok(true, 'echo server running');
+        .then((response) => {
+          if (response.ok) {
+            assert.ok(true, 'echo server running');
+            done();
+          } else {
+            throw Error('bad response from server');
+          }
+        })
+        .catch((error) => {
+          assert.ok(false, 'echo server running');
           done();
-        } else {
-          throw Error('bad response from server');
-        }
-      })
-      .catch((error) => {
-        assert.ok(false, 'echo server running');
-        done();
-      });
+        });
     });
 
-    QUnit.test('echo server #2 running (without CORS)', function(assert) {
+    QUnit.test('echo server #2 running (without CORS)', function (assert) {
       var done = assert.async();
 
       fetch('http://localhost:5001/', {
         mode: 'no-cors'
       })
-      .then((response) => {
-        if (response.type == 'opaque') {
-          assert.ok(true, 'echo server running');
+        .then((response) => {
+          if (response.type == 'opaque') {
+            assert.ok(true, 'echo server running');
+            done();
+          } else {
+            throw Error('unexpected response from server');
+          }
+        })
+        .catch((error) => {
+          assert.ok(false, 'echo server running');
           done();
-        } else {
-          throw Error('unexpected response from server');
-        }
-      })
-      .catch((error) => {
-        assert.ok(false, 'echo server running');
-        done();
-      });
+        });
     });
   </script>
 </body>
+
 </html>
