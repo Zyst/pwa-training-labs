@@ -108,7 +108,16 @@ var app = (() => {
 
   /* NOTE: Never send unencrypted user credentials in production! */
   function postRequest() {
-    // TODO 6.2
+    const body = new FormData(document.getElementById('myForm'))
+
+    fetch('http://localhost:5000/', {
+      method: 'POST',
+      body
+    })
+      .then(validateResponse)
+      .then(readResponseAsText)
+      .then(logResult)
+      .catch(logError)
   }
 
   // Don't worry if you don't understand this, it's not part of the Fetch API.
