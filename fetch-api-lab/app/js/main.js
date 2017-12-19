@@ -110,13 +110,18 @@ var app = (() => {
   function postRequest() {
     const body = new FormData(document.getElementById('myForm'))
 
-    fetch('http://localhost:5001/', {
+    const customHeaders = new Headers({
+      'Content-Type': 'text/plain',
+      'X-Custom': 'Yeah yeah yeah!'
+    })
+
+    fetch('http://localhost:5000/', {
       method: 'POST',
       body,
-      mode: 'no-cors'
+      headers: customHeaders
     })
-      // .then(validateResponse)
-      // .then(readResponseAsText)
+      .then(validateResponse)
+      .then(readResponseAsText)
       .then(logResult)
       .catch(logError)
   }
