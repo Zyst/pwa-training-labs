@@ -15,19 +15,19 @@ limitations under the License.
 */
 // eslint-disable-next-line no-unused-vars
 var app = (() => {
-  'use strict';
+  'use strict'
 
   function logResult(result) {
-    console.log(result);
+    console.log(result)
   }
 
   function logError(error) {
-    console.log('Looks like there was a problem: \n', error);
+    console.log('Looks like there was a problem: \n', error)
   }
 
   if (!('fetch' in window)) {
-    console.log('Fetch API not found, try including the polyfill');
-    return;
+    console.log('Fetch API not found, try including the polyfill')
+    return
   }
 
   function fetchJSON() {
@@ -35,32 +35,32 @@ var app = (() => {
       .then(validateResponse)
       .then(readResponseAsJSON)
       .then(logResult)
-      .catch(logError);
+      .catch(logError)
   }
 
   function validateResponse(response) {
-    if (!response.ok) throw response.statusText;
+    if (!response.ok) throw response.statusText
 
-    return response;
+    return response
   }
 
   function readResponseAsJSON(response) {
-    return response.json();
+    return response.json()
   }
 
   function showImage(responseAsBlob) {
-    var container = document.getElementById('container');
-    var imgElem = document.createElement('img');
+    var container = document.getElementById('container')
+    var imgElem = document.createElement('img')
 
-    container.appendChild(imgElem);
+    container.appendChild(imgElem)
 
-    var imgUrl = URL.createObjectURL(responseAsBlob);
+    var imgUrl = URL.createObjectURL(responseAsBlob)
 
-    imgElem.src = imgUrl;
+    imgElem.src = imgUrl
   }
 
   function readResponseAsBlob(response) {
-    return response.blob();
+    return response.blob()
   }
 
   function fetchImage() {
@@ -68,19 +68,25 @@ var app = (() => {
       .then(validateResponse)
       .then(readResponseAsBlob)
       .then(showImage)
-      .catch(logError);
+      .catch(logError)
   }
 
   function showText(responseAsText) {
-    //  TODO 4a
+    var message = document.getElementById('message')
+
+    message.textContent = responseAsText
   }
 
   function readResponseAsText(response) {
-    // TODO 4b
+    return response.text()
   }
 
   function fetchText() {
-    // TODO 4c
+    fetch('examples/words.txt')
+      .then(validateResponse)
+      .then(readResponseAsText)
+      .then(showText)
+      .catch(logError)
   }
 
   function headRequest() {
@@ -109,5 +115,5 @@ var app = (() => {
     fetchText,
     headRequest,
     postRequest
-  };
-})();
+  }
+})()
