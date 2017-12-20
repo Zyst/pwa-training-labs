@@ -1,4 +1,4 @@
-(function() {
+;(function() {
   'use strict'
 
   var filesToCache = [
@@ -25,7 +25,38 @@
     )
   })
 
-  // TODO 3 - intercept network requests
+  self.addEventListener('fetch', function(event) {
+    console.log('Fetch event for ', event.request.url)
+
+    event.respondWith(
+      caches
+        .match(event.request)
+        .then(function(response) {
+          if (response) {
+            console.log('Found ', event.request.url, ' in cache')
+
+            return response
+          }
+
+          console.log('Network request for ', event.request.url)
+
+          return fetch(event.request).then(function(response) {
+            if (response.status === 404) return caches.match('pages/404.html')
+
+            return caches.open(staticCacheName).then(function(cache) {
+              if (event.request.url.indexOf('test') < 0) {
+                cache.put(event.request.url, response.clone())
+              }
+
+              return response
+            })
+          })
+        })
+        .catch(function() {
+          return caches.match('pages/offline.html')
+        })
+    )
+  })
 
   // TODO 7 - delete unused caches
 })()
