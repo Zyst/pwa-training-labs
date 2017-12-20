@@ -5,4 +5,4 @@ https://developers.google.com/web/ilt/pwa/
 
 ## Current
 
-https://developers.google.com/web/ilt/pwa/caching-files-with-service-worker-slides
+https://developers.google.com/web/ilt/pwa/working-with-indexeddb-slides
