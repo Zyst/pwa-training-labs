@@ -320,9 +320,30 @@ var idbApp = (function() {
 
   function showOrders() {
     var s = ''
+
     dbPromise
       .then(function(db) {
-        // TODO 5.3 - use a cursor to display the orders on the page
+        var tx = db.transaction('orders', 'readonly')
+        var store = tx.objectStore('orders')
+
+        return store.openCursor()
+      })
+      .then(function showRange(cursor) {
+        if (!cursor) {
+          return
+        }
+
+        console.log('Cursored at:', cursor.value.name)
+
+        s += '<h2>Name - ' + cursor.value.name + '</h2><p>'
+
+        for (var field in cursor.value) {
+          s += field + '=' + cursor.value[field] + '<br/>'
+        }
+
+        s += '</p>'
+
+        return cursor.continue().then(showRange)
       })
       .then(function() {
         if (s === '') {
